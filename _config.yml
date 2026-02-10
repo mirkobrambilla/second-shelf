@@ -1,0 +1,16 @@
+title: Second Shelf
+description: Home projects, reused hardware and technical notes — practical, non-enterprise, and intentionally imperfect
+theme: minima
+markdown: kramdown
+
+author:
+  name: Mirko Brambilla
+
+show_excerpts: true
+
+header_pages:
+  - index.md
+  - about.md
+
+url: "https://mirkobrambilla.github.io"
+baseurl: "/second-shelf"
