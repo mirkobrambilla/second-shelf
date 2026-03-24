@@ -221,6 +221,39 @@ Now, only approved players can access the server.
 If you followed the configuration correctly, the server should already work in your LAN.
 There is the potion to expose your minecraft server over internet, opening the port forwarding on port number 25565. I will not cover this in this article.
 
+## Reflection - Why I’m not using Docker
+
+One thing I didn’t use in this setup is Docker.
+
+Not because it’s a bad idea — actually, it would bring some real benefits:
+- easier migrations between machines  
+- cleaner isolation  
+- simpler upgrades and rollbacks  
+
+But in this case, I chose not to use it.
+
+This server runs on a machine that is **100% dedicated to Minecraft**.  
+There are no other services, no competing workloads, nothing else to isolate.
+
+Adding Docker would have meant introducing:
+- another layer of abstraction  
+- more moving parts  
+- more things to debug  
+
+For very little practical gain in this specific setup.
+
+Yes, using containers would make hardware changes easier and reduce downtime.  
+But this is not a production system.
+
+This is a *Second Shelf* project.
+
+If the hardware fails and the server is down for a day or two, that’s acceptable.  
+There are no users paying for uptime. No SLAs. No pressure to recover instantly.
+
+In this context, simplicity wins.
+
+Less abstraction, fewer components, and a setup I can fully understand and fix quickly.
+
 ## Conclusion
 
 At the end of the day, this is just a Minecraft server.
