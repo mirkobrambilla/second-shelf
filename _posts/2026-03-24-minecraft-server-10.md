@@ -9,6 +9,8 @@ version: 1.0
 *A Second Shelf project – step-by-step narrative*
 
 ---
+## Introduction
+
 I had been playing Minecraft a few times with friends and family, usually on public servers somewhere around the world. We would build things together, and after a good session, we’d just hope to find everything still there the next time we logged in.
 
 It would have been great to have our own world—our own place to create and destroy things together—and then just leave it there, waiting for the next session.
