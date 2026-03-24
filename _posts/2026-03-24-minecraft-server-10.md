@@ -229,14 +229,8 @@ It’s not built to scale.
 
 But it works.
 
-It runs on a machine that was doing nothing, in a corner of the house. It hosts a world that belongs only to us—where things stay exactly as we left them, waiting for the next session.
+It runs on a machine that was doing nothing, in a corner of the house. It hosts a world that belongs only to us, where things stay exactly as we left them, waiting for the next session.
 
 There’s something satisfying about that. Not just playing the game, but understanding the system behind it. Knowing where the data lives, how the service starts, how to fix it when it breaks.
-
-This is what a *Second Shelf* project looks like:
-- simple
-- useful
-- a bit rough around the edges
-- entirely yours
 
 And honestly, that’s more than enough.
