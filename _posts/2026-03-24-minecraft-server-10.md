@@ -101,7 +101,7 @@ You are now working with a clean environment
 
 Minecraft only needs Java, nothing else.
 ```bash
-sudo apt install openjdk-21-jre-headless
+sudo apt install openjdk-25-jre-headless
 java -version
 ```
 No IDEs, no build tools, just a runtime to launch the server.
