@@ -46,7 +46,7 @@ I decided not to use **Ubuntu Desktop** because it adds unnecessary overhead and
 
 ## Step 2 – Disabling the GUI
 
-Minecraft doesn’t need a graphical interface, neither I do. Removing it had immediate benefits:
+Minecraft doesn’t need a graphical interface, and neither do I. Removing it had immediate benefits:
 - Faster boot
 - Less RAM usage
 - Fewer background services
@@ -68,12 +68,12 @@ sudo systemctl enable ssh
 sudo systemctl start ssh
 ```
 
-now, make sure you named the old PC as minecraft server and made it visible in your local network.
+Now, make sure you’ve named the old PC as the Minecraft server and made it visible on your local network.
 You can do it with this command:
 ```bash
 sudo hostnamectl set-hostname minecraft-server
 ```
-And, as I mentioned before, make sure there’s a `minecraft` user with `sudo` access so you can follow along. 
+And, as mentioned in Step 1, create that `minecraft` user with `sudo` access:
 
 ```bash
 sudo adduser minecraft
@@ -87,34 +87,33 @@ ssh minecraft@minecraft-server
 ```
 I could now manage the server from anywhere on my LAN.
 No monitor. No keyboard. No mouse. Just me, my laptop, and a terminal.
- 
 
-## Step 4 - Basic system setup
+## Step 4 – Basic system setup
 
 Before installing Minecraft, a little hygiene:
 ```bash
-sudo apt update && sudo apt upgrade
+sudo apt update -y && sudo apt upgrade -y
 ```
-You are now working with a clean environment
+You are now working with a clean environment.
 
-## Step 5 - Installing Java
+## Step 5 – Installing Java
 
 Minecraft only needs Java, nothing else.
 ```bash
-sudo apt install openjdk-21-jre-headless
+sudo apt install openjdk-25-jre-headless
 java -version
 ```
 No IDEs, no build tools, just a runtime to launch the server.
 Make sure you use an LTS version so you don’t have to change it often.
 
-## Step 6 - Preparing the server
+## Step 6 – Preparing the server
 
 I created a dedicated folder:
 ```bash
 mkdir -p ~/minecraft-server
 cd ~/minecraft-server
 ```
-Download the last version of the **official Minecraf server JAR** from Mojang:
+Download the latest version of the **official Minecraft server JAR** from Mojang:
 ```bash
 # create a folder for the server
 mkdir -p ~/minecraft-server && cd ~/minecraft-server
@@ -138,12 +137,12 @@ LATEST_URL=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.js
 wget -O server.jar "$LATEST_URL"
 ```
 
-Now, you are ready to run the server for the first time
+Now you are ready to run the server for the first time:
 ```bash
 java -Xmx2G -Xms2G -jar server.jar nogui
 ```
-and ups, server stopped!
-The server stopped and complained about the EULA. I opened eula.txt:
+And… oops, the server stopped!
+It complained about the EULA. I opened eula.txt:
 ```bash
 vim eula.txt
 ```
@@ -189,19 +188,19 @@ Now Minecraft:
 - restarts if it crashes
 - runs in the background
 
-## Step 8 - Testing the server
+## Step 8 – Testing the server
 I joined from my LAN client, created a world, and restarted the server. Everything persisted.
 It was alive. It was mine. And it worked.
 
-## Step 9 - Enabling the whitelist
+## Step 9 – Enabling the whitelist
 Since this server is private, I wanted control over who can join.
-I then activated the whitelist feature on the minecraft server.
+I then activated the whitelist feature on the Minecraft server.
 
 Edit `server.properties`:
 ```
 white-list=true
 ```
-Then I created a new file `whitelist.json` and filled the minecraft username of my family and friends
+Then I created a new file `whitelist.json` and filled in the Minecraft usernames of my family and friends:
 ```json
 [
   {
@@ -216,12 +215,12 @@ Then I created a new file `whitelist.json` and filled the minecraft username of 
 ```
 Now, only approved players can access the server.
 
-## Step 10 - Networking
+## Step 10 – Networking
 
-If you followed the configuration correctly, the server should already work in your LAN.
-There is the potion to expose your minecraft server over internet, opening the port forwarding on port number 25565. I will not cover this in this article.
+If you followed the configuration correctly, the server should already work on your LAN.
+There is also the option to expose your Minecraft server over the internet by opening port forwarding on port number 25565. I will not cover this in this article.
 
-## Reflection - Why I’m not using Docker
+## Reflection – Why I’m not using Docker
 
 One thing I didn’t use in this setup is Docker.
 
