@@ -235,7 +235,7 @@ So I automated it.
 VERSION_MANIFEST_URL="https://launchermeta.mojang.com/mc/game/version_manifest.json"
 REMOTE_SERVER="minecraft-server.local"
 REMOTE_PATH="~/Minecraft/server.jar"
-USER="admin" # Remote server username
+USER="minecraft" # Remote server username
 
 # Get the latest release URL using jq
 LATEST_RELEASE_URL=$(curl -s $VERSION_MANIFEST_URL | jq -r '.latest.release')
