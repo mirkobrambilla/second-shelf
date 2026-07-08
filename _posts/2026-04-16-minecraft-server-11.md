@@ -116,14 +116,14 @@ So I added **Wake-on-LAN (WoL)**.
 - Enable it on the network interface
 - Send a “magic packet” from another device
 
-### 1. BIOS
+### 3.1 BIOS
 
 - Enable **Wake on LAN from S4/S5 → Power On – Normal Boot**.
 - Disable any **Deep Sleep / ErP / EuP** power-saving option.
   This one silently removes standby power from the NIC even when WoL otherwise
   looks enabled — the classic reason a correctly-configured machine won't wake.
 
-### 2. Find the interface and connection name
+### 3.2 Find the interface and connection name
 
 ```bash
 nmcli c show
@@ -132,7 +132,7 @@ ip link show
 
 On the NUC: interface `enp0s25`, connection `netplan-enp0s25`.
 
-### 3. Enable WoL via NetworkManager
+### 3.3 Enable WoL via NetworkManager
 
 `sudo` is required.
 
@@ -143,7 +143,7 @@ sudo nmcli connection up "netplan-enp0s25"
 
 NetworkManager reapplies this on every connection, so it persists across reboots.
 
-### 4. Verify it landed on the NIC
+### 3.4 Verify it landed on the NIC
 
 ```bash
 sudo ethtool enp0s25 | grep -i wake
@@ -158,7 +158,7 @@ Wake-on: g
 Reading with `ethtool` is fine — only *setting* WoL via `ethtool` is the thing
 that doesn't stick.
 
-### 5. Note the MAC address
+### 3.5 Note the MAC address
 
 ```bash
 ip link show enp0s25
@@ -167,7 +167,7 @@ ip link show enp0s25
 The `link/ether` value (e.g. `aa:bb:cc:dd:ee:ff`) is the target for the magic
 packet. Make sure it's the **wired** NIC's MAC, not the Wi-Fi one.
 
-### 6. Test — full shutdown, then wake
+### 3.6 Test — full shutdown, then wake
 
 The WoL setting applies as the connection goes down, so test with a real
 shutdown, **not** a reboot:
@@ -187,7 +187,7 @@ Using the subnet-directed broadcast (`-i 192.168.0.255`) rather than the default
 
 ---
 
-### Troubleshooting
+### 3.7 Troubleshooting
 
 Check the NIC port LED while the machine is off:
 
