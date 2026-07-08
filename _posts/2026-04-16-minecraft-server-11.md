@@ -1,6 +1,6 @@
 ---
 title: "Running a Minecraft Server at Home – Small Improvements"
-date: 2026-xx-xx
+date: 2026-04-16
 tags: [home, minecraft, server, reused hardware, Java]
 version: 1.1
 ---
