@@ -39,8 +39,6 @@ So I replaced it with a **NUC**:
 - almost silent
 - significantly lower power consumption
 
-> [TODO: insert your story about discovering NUCs and second-hand market]
-
 The migration itself was simple:
 - same OS (Ubuntu)
 - same folder structure
@@ -64,11 +62,26 @@ But it removes an entire class of problems.
 
 ### Adjusting Minecraft memory
 
-After the upgrade, I revisited the service configuration:
-> [TODO: insert the research about RAM consumption}
+After the upgrade, I revisited the service configuration.
+I came from something like this:
 ```
 ExecStart=/usr/bin/java -Xmx4G -Xms2G -jar server.jar nogui
 ```
+to something more complex:
+```
+WorkingDirectory=/home/mbrambilla/Minecraft
+ExecStart=/usr/bin/java -Xms6G -Xmx8G \
+-XX:+UseG1GC \
+-XX:MaxGCPauseMillis=150 \
+-XX:+ParallelRefProcEnabled \
+-XX:+UnlockExperimentalVMOptions \
+-XX:+DisableExplicitGC \
+-jar server.jar nogui
+Restart=on-failure
+RestartSec=10
+```
+At first I tried allocating around 12 to 14GB of memory, leaving room for the OS, but that didn’t help. On the contrary, the server was slower than with the previous configuration using 2GB of RAM.
+
 Instead of pushing limits, the goal was:
 - give enough memory
 - leave room for the OS
@@ -84,7 +97,7 @@ Instead of pushing limits, the goal was:
 
 One annoying limitation of the first setup:
 
-> The server was either always on… or physically managed.
+The server was either always on… or physically managed.
 
 That didn’t fit well with real usage:
 - sometimes I don’t play for weeks
@@ -104,13 +117,103 @@ So I added **Wake-on-LAN (WoL)**.
 - Enable it on the network interface
 - Send a “magic packet” from another device
 
-> [TODO: add the wakeOnLan instruction/scripts with the public repo if needed]
+### 1. BIOS
 
-Example:
+- Enable **Wake on LAN from S4/S5 → Power On – Normal Boot**.
+- Disable any **Deep Sleep / ErP / EuP** power-saving option.
+  This one silently removes standby power from the NIC even when WoL otherwise
+  looks enabled — the classic reason a correctly-configured machine won't wake.
+
+### 2. Find the interface and connection name
 
 ```bash
-wakeonlan <MAC_ADDRESS>
+nmcli c show
+ip link show
 ```
+
+On the NUC: interface `enp0s25`, connection `netplan-enp0s25`.
+
+### 3. Enable WoL via NetworkManager
+
+`sudo` is required.
+
+```bash
+sudo nmcli connection modify "netplan-enp0s25" 802-3-ethernet.wake-on-lan magic
+sudo nmcli connection up "netplan-enp0s25"
+```
+
+NetworkManager reapplies this on every connection, so it persists across reboots.
+
+### 4. Verify it landed on the NIC
+
+```bash
+sudo ethtool enp0s25 | grep -i wake
+```
+
+Expected:
+
+```
+Wake-on: g
+```
+
+Reading with `ethtool` is fine — only *setting* WoL via `ethtool` is the thing
+that doesn't stick.
+
+### 5. Note the MAC address
+
+```bash
+ip link show enp0s25
+```
+
+The `link/ether` value (e.g. `aa:bb:cc:dd:ee:ff`) is the target for the magic
+packet. Make sure it's the **wired** NIC's MAC, not the Wi-Fi one.
+
+### 6. Test — full shutdown, then wake
+
+The WoL setting applies as the connection goes down, so test with a real
+shutdown, **not** a reboot:
+
+```bash
+sudo shutdown now
+```
+
+Then from another machine on the LAN:
+
+```bash
+wakeonlan -i 192.168.0.255 <MAC>
+```
+
+Using the subnet-directed broadcast (`-i 192.168.0.255`) rather than the default
+`255.255.255.255` is the most common fix when the machine won't wake.
+
+---
+
+### Troubleshooting
+
+Check the NIC port LED while the machine is off:
+
+- **Dark** → the NIC has no standby power in S5. Go back to the BIOS and disable
+  Deep Sleep / ErP / EuP. Nothing on the software side can fix this.
+- **Lit / blinking** → power is fine, so it's a delivery problem. Send the magic
+  packet **from an always-on node on the same subnet** to remove all
+  routing/VLAN questions:
+
+  ```bash
+  # on an always-on node on 192.168.2.x
+  sudo apt install wakeonlan
+  wakeonlan <MAC>
+  ```
+
+Confirm the packet actually reaches the segment — from a sibling host that's up:
+
+```bash
+ip -br link                       # find that host's interface
+sudo tcpdump -i <iface> -c 2 'udp port 9'
+```
+
+Then send the packet again; if `tcpdump` sees it, delivery to that L2 segment
+works.
+
 Now the server can stay off, and I can wake it up from my laptop when needed.
 
 ## 4 – Updating Minecraft from anywhere in the network
@@ -126,7 +229,51 @@ So I automated it.
 - Reduce manual steps
 - Keep control, no auto-updates
 
-> [TODO: insert your update script here]
+```bash
+#!/bin/bash
+
+# Set the variables
+VERSION_MANIFEST_URL="https://launchermeta.mojang.com/mc/game/version_manifest.json"
+REMOTE_SERVER="minecraft-server.local"
+REMOTE_PATH="~/Minecraft/server.jar"
+USER="admin" # Remote server username
+
+# Get the latest release URL using jq
+LATEST_RELEASE_URL=$(curl -s $VERSION_MANIFEST_URL | jq -r '.latest.release')
+LATEST_VERSION_URL=$(curl -s $VERSION_MANIFEST_URL | jq -r --arg version "$LATEST_RELEASE_URL" '.versions[] | select(.id == $version) | .url')
+
+# Get the server.jar URL using jq
+SERVER_JAR_URL=$(curl -s $LATEST_VERSION_URL | jq -r '.downloads.server.url')
+
+# Download the latest Minecraft server version
+echo "Downloading the latest Minecraft server version..."
+curl -o server.jar $SERVER_JAR_URL
+
+# Check if the download succeeded
+if [ $? -ne 0 ]; then
+    echo "Error downloading the Minecraft server."
+    exit 1
+fi
+
+# Copy server.jar to the remote server
+echo "Uploading server.jar to the remote server..."
+scp server.jar $USER@$REMOTE_SERVER:$REMOTE_PATH
+
+# Check if the copy succeeded
+if [ $? -ne 0 ]; then
+    echo "Error copying server.jar to the remote server."
+    exit 1
+fi
+
+# Remove the local server.jar file
+rm server.jar
+
+# Restart the remote machine
+echo "Restarting the remote machine..."
+ssh -tt $USER@$REMOTE_SERVER "sudo reboot"
+
+echo "Done."
+```
 
 ### Result
 - One command → server updates
