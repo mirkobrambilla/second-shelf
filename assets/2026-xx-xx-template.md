@@ -1,6 +1,6 @@
 ---
 title: "title here"
-date: 2026-xx-xx
+date: 2026-01-01
 tags: [home, minecraft, server, reused hardware, Java]
 version: 1.0
 excerpt: ""
