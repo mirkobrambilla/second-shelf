@@ -8,6 +8,8 @@ excerpt: ""
 
 ## Introduction
 
+*This is a follow-up to [Running a Minecraft Server at Home]({% post_url 2026-03-24-minecraft-server-10 %}), where I set the server up from scratch. If you haven't read it yet, it's worth starting there.*
+
 After running the server for a while, a few things became clear.
 
 Nothing was fundamentally broken. The server worked. It was stable. It did exactly what I needed.
