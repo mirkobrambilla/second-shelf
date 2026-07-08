@@ -1,13 +1,9 @@
 ---
 title: "Managing Your Home Network Remotely (Without Paid Services)"
-date: 2026-xx-xx
+date: 2026-05-10
 tags: [home, homelab, raspberry-pi, networking, remote-access]
 version: 1.0
----
-
-# Managing Your Home Network Remotely (Without Paid Services)
-*A Second Shelf project – how I stopped over-engineering and just made it work*
-
+excerpt: ""
 ---
 
 ## Introduction
@@ -23,8 +19,6 @@ Until the moment you're not home.
 And something stops working.
 
 And you realize: you have no way to get back into your own network.
-
----
 
 ## The actual problem
 
@@ -42,8 +36,6 @@ It will get scanned. It will get hit. Eventually, something will try to get in.
 So the problem is not access.
 
 It's **access without doing something stupid**.
-
----
 
 ## What I was looking for
 
@@ -65,8 +57,6 @@ And ideally:
 - no fragile setup that breaks after two uses
 
 If it works most of the time, that's already good enough.
-
----
 
 ## What I tried
 
@@ -100,8 +90,6 @@ For a while, I used the Home Assistant terminal when I needed to access the netw
 
 It worked. But it wasn't reliable, and it felt wrong to depend on something built for a different purpose.
 
----
-
 ## What actually worked: Raspberry Pi Connect
 
 At some point I came across **Raspberry Pi Connect** — a service from the Raspberry Pi Foundation that allows remote access to a Raspberry Pi through a browser.
@@ -120,8 +108,6 @@ After linking the device through a browser, you get:
 - browser-based screen sharing
 
 No exposed ports. No monthly cost. No infrastructure to maintain.
-
----
 
 ## Hardware limitations
 
@@ -142,8 +128,6 @@ rpi-connect vnc off
 
 Terminal access still worked perfectly.
 
----
-
 ## Final setup
 
 I ended up splitting responsibilities across two devices:
@@ -162,8 +146,6 @@ rpi-connect shell off
 ```
 
 It's not the setup I originally planned. But it's the one that's stable.
-
----
 
 ## Reflection
 
@@ -186,8 +168,6 @@ It was the simplest way to make everything stable.
 And the most important shift:
 
 I stopped trying to build something *right*, and focused on something that *works*.
-
----
 
 ## Conclusion
 
