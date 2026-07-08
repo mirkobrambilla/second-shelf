@@ -4,6 +4,9 @@ date: 2026-03-24
 tags: [home, minecraft, server, reused hardware, Java]
 version: 1.0
 ---
+
+
+
 ## Introduction
 
 I had been playing Minecraft a few times with friends and family, usually on public servers somewhere around the world. We would build things together, and after a good session, we’d just hope to find everything still there the next time we logged in.
