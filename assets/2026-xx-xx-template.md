@@ -1,7 +1,9 @@
 ---
-title: "Project title"
-date: 2026-01-27
-tags: [home, homelab, reuse]
+title: "title here"
+date: 2026-xx-xx
+tags: [home, minecraft, server, reused hardware, Java]
+version: 1.0
+excerpt: ""
 ---
 
 ## Context
