@@ -81,7 +81,7 @@ Make sure the Pi is fully disconnected from power first, then:
 - Secure the PCIe ribbon cable to your AI HAT. While holding the ribbon cable in place, push the retaining clip back into the connector from both sides, ensuring that the cable is evenly inserted.
 
 Here’s a good picture from the official guide:
-![Mount the AI HAT+ 2]({{ '/assets/images/2026-06-25/ai-hat-plus-installation-02.jpg' | relative_url }})
+![Mount the AI HAT+ 2]({{ '/assets/images/2026-06-25/ai-hat-plus-installation.png' | relative_url }})
 
 And here’s my final result!
 ![The Raspberry Pi 5 and the AI HAT+ 2]({{ '/assets/images/2026-06-25/IMG_2199.jpg' | relative_url }})
