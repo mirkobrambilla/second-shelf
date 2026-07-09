@@ -6,6 +6,12 @@ version: 1.0
 excerpt: ""
 ---
 ## Introduction
+You’re deep in it. Vibe-coding with your favorite AI, one prompt after another, everything clicking.
+
+And then: *limit reached*. Come back in four hours. Or pay.
+
+That’s the moment this project actually started. Not with a grand plan, just a wall I didn’t want to keep hitting.
+
 I decided to build a local LLM box because I was tired of the only two options anyone seemed to offer: rent inference from someone else’s cloud, or buy a GPU loud enough to double as a space heater.
 
 What I actually wanted was smaller than that. *A private, low-power LLM box that isn’t a GPU furnace*: something that sits on the shelf with the rest of the homelab, draws a couple of watts, and just answers questions without phoning home to do it.
