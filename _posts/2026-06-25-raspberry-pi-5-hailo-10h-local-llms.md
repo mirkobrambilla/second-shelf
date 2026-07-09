@@ -49,9 +49,9 @@ So here’s the shop I ended up using for the [Raspberry Pi AI HAT+ 2 board](htt
 ![The 40 tera-operations per second (TOPS) Raspberry Pi AI HAT+ 2]({{ '/assets/images/2026-06-25/ai-hat-plus-2-hero.jpg' | relative_url }})
 
 This board only works with the Raspberry Pi 5, and the official guide recommends the 16 GB RAM version. Who am I to argue with the guide?
-Same story as the board: hard to find the Pi itself used, but at least easier to find new on the usual Swiss B2C sites. Here’s [an example](https://www.digitec.ch/en/s1/product/raspberry-pi-5-16gb-single-board-computer-kits-53945114).
+Same story as the board: hard to find the Pi itself used, but at least easier to find new on the usual Swiss B2C sites. Here’s [an example](https://www.brack.ch/raspberry-pi-entwicklerboard-raspberry-pi-5-16-gb-1828300).
 
-Like every AI setup, it runs hot fast, so the guide *strongly* recommends a heat sink for the Pi itself too. Here’s the [official active heat sink](https://www.digitec.ch/en/s1/product/raspberry-pi-official-fan-heat-sink-for-5-development-board-accessories-38955610).
+Like every AI setup, it runs hot fast, so the guide *strongly* recommends a heat sink for the Pi itself too. Here’s the [official active heat sink](https://www.brack.ch/raspberry-pi-aktiv-kuehler-sc1148-1629361).
 
 ## Mount the hardware
 Purchases done. Fast forward to the day the postman rings the bell and hands over all these boards.
